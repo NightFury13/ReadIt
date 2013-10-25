@@ -1,0 +1,143 @@
+timestamp: 2013-08-29T22:45:20.671952
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2013-08-29T22:45:20.838447
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2013-08-29T22:45:20.952625
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2013-08-29T22:45:21.065586
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2013-08-29T22:45:21.189464
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2013-08-29T22:45:21.324077
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2013-08-29T22:45:21.469736
+CREATE TABLE categ(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    catname CHAR(512)
+);
+success!
+timestamp: 2013-08-29T22:45:21.615515
+CREATE TABLE post(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    postby CHAR(512),
+    category INTEGER REFERENCES categ (id) ON DELETE CASCADE,
+    title CHAR(512),
+    link CHAR(512),
+    rating INTEGER
+);
+success!
+timestamp: 2013-08-29T22:48:37.387066
+ALTER TABLE auth_user ADD dob DATE;
+timestamp: 2013-08-29T22:48:37.540713
+ALTER TABLE auth_user ADD pp CHAR(512);
+timestamp: 2013-08-29T22:48:37.686508
+ALTER TABLE auth_user ADD sex CHAR(512);
+timestamp: 2013-08-29T22:48:37.821349
+ALTER TABLE auth_user ADD usertype CHAR(512);
+timestamp: 2013-08-30T01:44:21.980145
+CREATE TABLE wiki_page(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug CHAR(512),
+    title CHAR(512) UNIQUE,
+    body TEXT NOT NULL,
+    tags TEXT,
+    can_read TEXT,
+    can_edit TEXT,
+    changelog CHAR(512),
+    html TEXT,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2013-08-30T01:44:22.127526
+CREATE TABLE wiki_tag(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    wiki_page INTEGER REFERENCES wiki_page (id) ON DELETE CASCADE,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2013-08-30T01:44:22.305343
+CREATE TABLE wiki_media(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    wiki_page INTEGER REFERENCES wiki_page (id) ON DELETE CASCADE,
+    title CHAR(512),
+    filename CHAR(512),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2013-08-31T01:31:12.457505
+CREATE TABLE comm(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    postid INTEGER REFERENCES post (id) ON DELETE CASCADE,
+    commby CHAR(512),
+    commt TEXT
+);
+success!
+timestamp: 2013-08-31T01:34:47.314396
+ALTER TABLE comm ADD title INTEGER REFERENCES post (id) ON DELETE CASCADE;
+timestamp: 2013-08-31T22:49:28.162817
+ALTER TABLE comm ADD posttime TIMESTAMP;
+timestamp: 2013-09-01T11:22:10.495878
+CREATE TABLE rate(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    postid INTEGER REFERENCES post (id) ON DELETE CASCADE,
+    stat CHAR(512)
+);
+success!
+timestamp: 2013-09-01T11:55:20.035059
+ALTER TABLE rate ADD userid INTEGER;

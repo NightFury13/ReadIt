@@ -1,0 +1,33 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+{{extend 'layout.html'}}
+<img src="http://4.bp.blogspot.com/-NjwD15wyIi0/Ugac1OC7S6I/AAAAAAAACPg/jK_RNHgRUic/s760/Rectangle%2Bwordle.jpg"></img>
+{{block right_sidebar}}
+<div style="background-color:grey">
+<center><h3>Login to ReadIn!</h3></center>
+</div>
+<div style="background-color:lightgrey; text-align:center">
+{{=A(T("Login"), _href=URL('ReadIt','default','user/login'), _class='btn',
+     _style='margin-top: 1em;')}}
+</br>
+</br>
+<h5> Not a member yet? Join Here!</h5>
+{{=A(T("Register"), _href=URL('ReadIt','default','user/register'), _class='btn',
+     _style='margin-top: 1em;')}}
+</div>
+</br>
+</br>
+<div>
+<h5>Look for a Post :</h5>
+<form method='get' action="{{=URL('ReadIt','default','search')}}">
+<input type='text' name='keyword'></br>
+<input type='submit' value='Search'>
+</form>
+</div>
+<div style="width:320px;background-color:lightgrey; text-align:center">
+<h5> Share whats cool! Upload a new Post! </h5>
+{{if auth.user:}}
+{{=A(T("Upload"), _href=URL('ReadIt','appadmin','insert/db/post'), _class='btn',
+     _style='margin-top: 1em;')}}
+</div>
+{{pass}} 
+{{end}}

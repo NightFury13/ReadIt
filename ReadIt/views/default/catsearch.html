@@ -1,0 +1,56 @@
+{{extend 'layout.html'}}
+
+<div style=" background-color:lightgrey; text-align:right">
+<b> Share whats cool! Upload a new Post! </b>
+{{if auth.user:}}
+{{=A(T("Upload"), _href=URL('ReadIt','appadmin','insert/db/post'), _class='btn',
+     _style='margin-top: 1em;')}}
+{{pass}}
+</div>
+<div id="container" style="float:left;width:500px">
+<h4>Search for a Post:</h4>
+<form method='get' action="{{=URL('ReadIt','default','search')}}">
+<input type='text' name='keyword'></br>
+<input type='submit' value='Search'>
+</form>
+
+<table name='result' border='1'>
+	<tr style='background-color:grey'>
+		<th>Title</th>
+		<th>Post by</th>
+		<th>Rating</th>
+	</tr>
+	{{for i in names:}}
+	<tr style='background-color:lightgrey'>	
+		<td><a href="{{=URL('ReadIt','default','postpage')}}/{{=i['title']}}/{{=i['id']}}">{{=i['title']}}</a></td>
+		<td>{{=i['postby']}}</td>
+		<td>{{=i['rating']}}</td>
+	</tr>
+	{{pass}}
+</table>
+</div>
+</br>
+
+<div style="float:right;background-color:lightgrey; width:300px">
+<h5><p style="text-align:center; background-color:grey">Categories:</p></h5>
+<ul>
+{{for i in catnames:}}
+</br>
+<li><a href="{{=URL('ReadIt','default','catsearch')}}/{{=i['id']}}">{{=i['catname']}}</a></li>
+{{pass}}
+{{if usertype['usertype']=='admin':}}
+<p style="text-align:right"><a href="{{=URL('ReadIt','appadmin','insert/db/categ')}}">Add Category</a></p>
+{{pass}}
+</ul>
+</div>
+
+{{if usertype['usertype']=='admin':}}
+<div style="background-color:lightgrey;float:right; width:300px">
+<h5><p style="background-color:grey;text-align:center">Got Administration Works?</h5>
+<div style="text-align:center">
+{{=A(T("Admin Interface"), _href=URL('ReadIt','appadmin','index'), _class='btn',
+     _style='margin-top: 1em;')}}
+{{pass}}
+</div>
+</p>
+</div>

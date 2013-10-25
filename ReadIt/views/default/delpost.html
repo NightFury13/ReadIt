@@ -1,0 +1,8 @@
+{{extend 'layout.html'}}
+
+
+<h4>Search for a Post:</h4>
+<form method='get' action="{{=URL('ReadIt','default','search')}}">
+<input type='text' name='keyword'></br>
+<input type='submit' value='Search'>
+</form>

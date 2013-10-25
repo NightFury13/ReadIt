@@ -1,0 +1,60 @@
+{{extend 'layout.html'}}
+
+<div style='background-color:lightgrey'>
+<h5> Looking for something else?</h5>
+<form method='get' action="{{=URL('ReadIt','default','search')}}">
+<input type='text' name='keyword'>
+<input type='submit' value='Search'>
+</form>
+</div>
+
+<div id='container'style='width:800px;float:left'>
+<h3>{{=post['title']}}</h3>
+<iframe width="560" height="315" src="{{=post['link']}}" frameborder="0" allowfullscreen> </iframe></br>
+<a href="{{=post['link']}}" target="_blank">Go to the Post</a>
+{{if usertype['usertype']=='admin':}}
+<div style="text-align:left"><a href="{{=URL('ReadIt','default','delpost')}}/{{=post['id']}}">Remove Post</a></div>
+{{pass}}
+</div>
+</br>
+<div style="float:right;background-color:lightgrey; width:300px;">
+<h5><p style="text-align:center; background-color:grey">Categories:</p></h5>
+<ul>
+{{for i in catnames:}}
+</br>
+<li><a href="{{=URL('ReadIt','default','catsearch')}}/{{=i['id']}}">{{=i['catname']}}</a></li>
+{{pass}}
+{{if usertype['usertype']=='admin':}}
+<p style="text-align:right"><a href="{{=URL('ReadIt','appadmin','insert/db/categ')}}">Add Category</a></p>
+{{pass}}
+</ul>
+</div>
+
+<div id='footer' style='float:left;width:100%'>
+<div style="text-align:center; background-color:lightgrey"><b>Current Rating :{{=ctr}}</b>
+<a href="#comment"><div style='text-align:right ; color:red'><b>Comment</b></div></a>
+</br>
+{{=likeform}}
+</div>
+</br>
+<h4>Comments :</h4>
+<ul>
+{{for i in comments:}}
+<li style='background-color:lightgrey'>
+{{if usertype['usertype']=='admin':}}
+<div style="text-align:right">
+<a href="{{=URL('ReadIt','default','delcomm')}}/{{=i['id']}}">Remove</a>
+</div>
+{{pass}}
+{{=i['commby']}}<p style="text-align:right">Posted at : {{=i['posttime']}}</p>
+<pre>    {{=i['commt']}}
+</pre>
+</li>
+{{pass}}
+</ul>
+</br>
+<div style="background-color:lightgrey">
+<a id="comment"><h5>Post a Comment :</h5></a>
+{{=form}}
+</div>
+</div>
